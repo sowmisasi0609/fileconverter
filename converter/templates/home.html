@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF ↔ Word Converter</title>
+
+ <style>
+    * {
+        box-sizing: border-box;
+        outline: none; /* Remove blue border issue */
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #eef1f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .card {
+        width: 420px;
+        background: white;
+        padding: 35px;
+        border-radius: 18px;
+        box-shadow: 0px 8px 30px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .upload-box {
+        border: 2px dashed #5aa9ff;
+        padding: 30px 20px;
+        border-radius: 12px;
+        background: #f5faff;
+        cursor: pointer;
+        transition: 0.3s ease;
+        width: 100%;
+        display: block;       /* Prevents shrinking */
+    }
+
+    .upload-box:hover {
+        background: #eaf4ff;
+        border-color: #2f8bff;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    #fileName {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 22px;
+        background: #2f8bff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    button:hover {
+        background: #1976d2;
+    }
+
+    .download-btn {
+        background: #28c76f;
+    }
+
+    .download-btn:hover {
+        background: #1fa95b;
+    }
+</style>
+
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>PDF ↔ Word Converter</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label class="upload-box" for="fileInput">
+                <strong>Click to Upload File</strong>
+                <p id="fileName">No file chosen</p>
+            </label>
+
+            <input id="fileInput" type="file" name="file">
+
+            <button type="submit">Convert File</button>
+        </form>
+
+        {% if download_url %}
+            <a href="{{ download_url }}">
+                <button class="download-btn">Download Converted File</button>
+            </a>
+        {% endif %}
+    </div>
+
+<script>
+    document.getElementById("fileInput").addEventListener("change", function() {
+        document.getElementById("fileName").innerText = this.files[0].name;
+    });
+</script>
+
+</body>
+</html>
+
